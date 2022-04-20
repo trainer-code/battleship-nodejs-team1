@@ -80,8 +80,10 @@ export class Battleship {
 
     do {
       console.log();
-      console.log("Player, it's your turn");
-      console.log("Enter coordinates for your shot :");
+      console.log(
+        cliColor.yellow("Player, it's your turn"));
+      console.log(
+        cliColor.yellow("Enter coordinates for your shot :"));
       var position = Battleship.ParsePosition(readline.question());
       var isHit = GameController.CheckIsHit(this.enemyFleet, position);
 
@@ -94,21 +96,21 @@ export class Battleship {
         beep();
 
         console.log(
-          cliColor.red("                \\         .  ./"));
+          cliColor.green("                \\         .  ./"));
         console.log(
-          cliColor.red('              \\      .:";\'.:.."   /'));
+          cliColor.green('              \\      .:";\'.:.."   /'));
         console.log(
-          cliColor.red("                  (M^^.^~~:.'\")."));
+          cliColor.green("                  (M^^.^~~:.'\")."));
         console.log(
-          cliColor.red("            -   (/  .    . . \\ \\)  -"));
+          cliColor.green("            -   (/  .    . . \\ \\)  -"));
         console.log(
-          cliColor.red("               ((| :. ~ ^  :. .|))"));
+          cliColor.green("               ((| :. ~ ^  :. .|))"));
         console.log(
-          cliColor.red("            -   (\\- |  \\ /  |  /)  -"));
+          cliColor.green("            -   (\\- |  \\ /  |  /)  -"));
         console.log(
-          cliColor.red("                 -\\  \\     /  /-"));
+          cliColor.green("                 -\\  \\     /  /-"));
         console.log(
-          cliColor.red("                   \\  \\   /  /"));
+          cliColor.green("                   \\  \\   /  /"));
       }
       else {
         beep();
@@ -121,7 +123,10 @@ export class Battleship {
           cliColor.blue("~~~~~~~~~~~~~~~~~~~~~~~~~"));
       };
 
-      console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
+      console.log();
+
+      console.log(
+        cliColor.yellow(isHit ? "Yeah ! Nice hit !" : "Miss"));
 
       var computerPos = this.GetRandomPosition();
       var isHit = GameController.CheckIsHit(this.myFleet, computerPos);
@@ -133,8 +138,8 @@ export class Battleship {
 
       console.log();
       console.log(
-        `Computer shot in ${computerPos.column}${computerPos.row} and ` +
-          (isHit ? `has hit your ship !` : `miss`)
+        cliColor.yellow(`Computer shot in ${computerPos.column}${computerPos.row} and ` +
+          (isHit ? `has hit your ship !` : `miss`))
       );
       if (isHit) {
         beep();
