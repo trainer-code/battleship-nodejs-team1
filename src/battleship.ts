@@ -1,7 +1,7 @@
 import { Worker } from "worker_threads";
 import readline from "readline-sync";
 import { GameController } from "./GameController/gameController";
-import cliColor  from "cli-color";
+import cliColor from "cli-color";
 import beep from "beepbeep";
 import { Position } from "./GameController/position";
 import { Letters, GetLetterFromKey } from "./GameController/letters";
@@ -66,6 +66,13 @@ export class Battleship {
   }
 
   StartGame() {
+    var ships = {
+      "Aircraft Carrier": 5,
+      Battleship: 4,
+      Submarine: 3,
+      Destroyer: 3,
+      "Patrol Boat": 2,
+    };
     console.clear();
     console.log("                  __");
     console.log("                 /  \\");
@@ -84,6 +91,7 @@ export class Battleship {
       console.log("Enter coordinates for your shot :");
       var position = Battleship.ParsePosition(readline.question());
       var isHit = GameController.CheckIsHit(this.enemyFleet, position);
+      var hitShip = GameController.remainingShips(this.enemyFleet, position);
 
       telemetryWorker.postMessage({
         eventName: "Player_ShootPosition",
@@ -91,6 +99,8 @@ export class Battleship {
       });
 
       if (isHit) {
+        ships[hitShip] -= 1;
+        console.table(ships);
         beep();
 
         console.log("                \\         .  ./");
@@ -156,7 +166,7 @@ export class Battleship {
 
   InitializeMyFleet() {
     this.myFleet = GameController.InitializeShips();
-    console.log('this.myFleet=', this.myFleet);
+    console.log("this.myFleet=", this.myFleet);
 
     console.log(
       "Please position your fleet (Game board size is from A to H and 1 to 8) :"
