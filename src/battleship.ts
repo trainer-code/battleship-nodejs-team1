@@ -78,6 +78,10 @@ export class Battleship {
     console.log("   \\    \\_/");
     console.log('    """"');
 
+    for ( let i = 0; i < this.enemyFleet.length; i++) {
+      console.log(this.enemyFleet[i].positions);
+    }
+
     do {
       console.log();
       console.log(
@@ -227,26 +231,63 @@ export class Battleship {
   InitializeEnemyFleet() {
     this.enemyFleet = GameController.InitializeShips();
 
-    this.enemyFleet[0].addPosition(new Position(Letters.B, 4));
-    this.enemyFleet[0].addPosition(new Position(Letters.B, 5));
-    this.enemyFleet[0].addPosition(new Position(Letters.B, 6));
-    this.enemyFleet[0].addPosition(new Position(Letters.B, 7));
-    this.enemyFleet[0].addPosition(new Position(Letters.B, 8));
+    for (var j = 0; j < 5; j ++) {
+      this.enemyFleet[j].addPosition(this.GetRandomPosition());
+      var direction = this.GetDirection();
+      if (direction) {
+        if (this.enemyFleet[j].positions[0].column < this.enemyFleet[j].size) {
+          for (var i = 0; i < this.enemyFleet[j].size - 1; i++)
+            this.enemyFleet[j].addPosition(new Position(this.enemyFleet[j].positions[i].column + 1, this.enemyFleet[j].positions[i].row));
+        }
+        else {
+          for (var i = 0; i < this.enemyFleet[j].size - 1; i++)
+            this.enemyFleet[j].addPosition(new Position(this.enemyFleet[j].positions[i].column - 1, this.enemyFleet[j].positions[i].row));
+        }
+      }
+      else {
+        if (this.enemyFleet[j].positions[0].row < this.enemyFleet[j].size) {
+          for (var i = 0; i < this.enemyFleet[j].size - 1; i++)
+            this.enemyFleet[j].addPosition(new Position(this.enemyFleet[j].positions[i].column, this.enemyFleet[j].positions[i].row + 1));
+        }
+        else {
+          for (var i = 0; i < this.enemyFleet[j].size - 1; i++)
+            this.enemyFleet[j].addPosition(new Position(this.enemyFleet[j].positions[i].column, this.enemyFleet[j].positions[i].row - 1));
+        }
+      }
+    }
+    
 
-    this.enemyFleet[1].addPosition(new Position(Letters.E, 6));
-    this.enemyFleet[1].addPosition(new Position(Letters.E, 7));
-    this.enemyFleet[1].addPosition(new Position(Letters.E, 8));
-    this.enemyFleet[1].addPosition(new Position(Letters.E, 9));
 
-    this.enemyFleet[2].addPosition(new Position(Letters.A, 3));
-    this.enemyFleet[2].addPosition(new Position(Letters.B, 3));
-    this.enemyFleet[2].addPosition(new Position(Letters.C, 3));
+    // this.enemyFleet[0].addPosition(new Position(Letters.B, 4));
+    // this.enemyFleet[0].addPosition(new Position(Letters.B, 5));
+    // this.enemyFleet[0].addPosition(new Position(Letters.B, 6));
+    // this.enemyFleet[0].addPosition(new Position(Letters.B, 7));
+    // this.enemyFleet[0].addPosition(new Position(Letters.B, 8));
 
-    this.enemyFleet[3].addPosition(new Position(Letters.F, 8));
-    this.enemyFleet[3].addPosition(new Position(Letters.G, 8));
-    this.enemyFleet[3].addPosition(new Position(Letters.H, 8));
+    // this.enemyFleet[1].addPosition(new Position(Letters.E, 6));
+    // this.enemyFleet[1].addPosition(new Position(Letters.E, 7));
+    // this.enemyFleet[1].addPosition(new Position(Letters.E, 8));
+    // this.enemyFleet[1].addPosition(new Position(Letters.E, 9));
 
-    this.enemyFleet[4].addPosition(new Position(Letters.C, 5));
-    this.enemyFleet[4].addPosition(new Position(Letters.C, 6));
+    // this.enemyFleet[2].addPosition(new Position(Letters.A, 3));
+    // this.enemyFleet[2].addPosition(new Position(Letters.B, 3));
+    // this.enemyFleet[2].addPosition(new Position(Letters.C, 3));
+
+    // this.enemyFleet[3].addPosition(new Position(Letters.F, 8));
+    // this.enemyFleet[3].addPosition(new Position(Letters.G, 8));
+    // this.enemyFleet[3].addPosition(new Position(Letters.H, 8));
+
+    // this.enemyFleet[4].addPosition(new Position(Letters.C, 5));
+    // this.enemyFleet[4].addPosition(new Position(Letters.C, 6));
+  }
+
+  GetDirection() {
+    var bin = Math.floor(Math.random()*2);
+    if (bin == 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
